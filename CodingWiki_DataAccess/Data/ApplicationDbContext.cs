@@ -12,7 +12,11 @@ namespace CodingWiki_DataAccess.Data
     {
         public DbSet<Book> books { get; set; }
 
-        public DbSet<Category> genres { get; set; }
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<SubCategory> SubCategories{ get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
