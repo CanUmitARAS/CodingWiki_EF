@@ -30,5 +30,7 @@ namespace CodingWiki_Model.Models
                 return $"{FirstName} {LastName}";
             }
         }
+
+        
     }
 }
