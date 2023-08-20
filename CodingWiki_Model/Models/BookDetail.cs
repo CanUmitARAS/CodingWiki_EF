@@ -12,6 +12,7 @@ namespace CodingWiki_Model.Models
     {
         [Key]
         public int BookDetail_Id { get; set; }
+
         [Required]
         public int NumberOfChapters { get; set; }
 
@@ -19,9 +20,11 @@ namespace CodingWiki_Model.Models
 
         public string Weight { get; set; }
 
+
         [ForeignKey("Book")]
         public int Book_Id { get; set; }
 
         public Book Book{ get; set; }
+
     }
 }
