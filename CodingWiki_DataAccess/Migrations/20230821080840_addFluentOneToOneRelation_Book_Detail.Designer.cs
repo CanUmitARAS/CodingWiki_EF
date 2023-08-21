@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWikiDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821080840_addFluentOneToOneRelation_Book_Detail")]
+    partial class addFluentOneToOneRelationBookDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,9 +88,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 1,
                             ISBN = "123812",
                             Price = 10.9m,
-
                             PublisherId = 1,
-
                             Title = "Spider without duty"
                         },
                         new
@@ -95,9 +96,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 2,
                             ISBN = "12123812",
                             Price = 11.99m,
-
                             PublisherId = 2,
-
                             Title = "Fortune Of Time"
                         },
                         new
@@ -105,9 +104,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 3,
                             ISBN = "77652",
                             Price = 20.99m,
-
                             PublisherId = 3,
-
                             Title = "Fake Sunday"
                         },
                         new
@@ -115,9 +112,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 4,
                             ISBN = "CC12812",
                             Price = 25.99m,
-
                             PublisherId = 1,
-
                             Title = "Cookie Jar"
                         },
                         new
@@ -125,9 +120,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 5,
                             ISBN = "P0392B33",
                             Price = 40.99m,
-
                             PublisherId = 2,
-
                             Title = "Cloudy Forest"
                         });
                 });
@@ -317,25 +310,19 @@ namespace CodingWikiDataAccess.Migrations
                         {
                             PublisherId = 1,
                             Location = "Chigago",
-
                             Name = "Pub1 Jimmy"
-
                         },
                         new
                         {
                             PublisherId = 2,
                             Location = "New York",
-
                             Name = "Pub2 John"
-
                         },
                         new
                         {
                             PublisherId = 3,
                             Location = "Hawaii",
-
                             Name = "Pub3 Ben"
-
                         });
                 });
 
