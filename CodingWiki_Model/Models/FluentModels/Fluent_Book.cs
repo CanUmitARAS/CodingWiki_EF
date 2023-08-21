@@ -29,6 +29,6 @@ namespace CodingWiki_Model.Models
 
         public Fluent_Publisher Publisher { get; set; }
 
-        //public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
+        public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
     }
 }
