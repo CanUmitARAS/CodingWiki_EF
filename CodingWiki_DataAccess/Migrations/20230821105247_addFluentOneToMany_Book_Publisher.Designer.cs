@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWikiDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230819123647_test1")]
-    partial class test1
+    [Migration("20230821105247_addFluentOneToMany_Book_Publisher")]
+    partial class addFluentOneToManyBookPublisher
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace CodingWikiDataAccess.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.Property<int>("AuthorsAuthor_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BooksBookId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorsAuthor_Id", "BooksBookId");
-
-                    b.HasIndex("BooksBookId");
-
-                    b.ToTable("AuthorBook");
-                });
 
             modelBuilder.Entity("CodingWiki_Model.Models.Author", b =>
                 {
@@ -140,6 +125,21 @@ namespace CodingWikiDataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("CodingWiki_Model.Models.BookAuthorMap", b =>
+                {
+                    b.Property<int>("Author_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Book_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Author_Id", "Book_Id");
+
+                    b.HasIndex("Book_Id");
+
+                    b.ToTable("BookAuthorMap");
+                });
+
             modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
                 {
                     b.Property<int>("BookDetail_Id")
@@ -183,6 +183,111 @@ namespace CodingWikiDataAccess.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("category");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Author", b =>
+                {
+                    b.Property<int>("Author_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Author_Id"));
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Author_Id");
+
+                    b.ToTable("Fluent_Authors");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Book", b =>
+                {
+                    b.Property<int>("BookId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Publisher_Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BookId");
+
+                    b.HasIndex("Publisher_Id");
+
+                    b.ToTable("Fluent_Books");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_BookDetail", b =>
+                {
+                    b.Property<int>("BookDetail_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookDetail_Id"));
+
+                    b.Property<int>("Book_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfChapters")
+                        .HasColumnType("int")
+                        .HasColumnName("NoOfChapters");
+
+                    b.Property<int>("NumberOfPages")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Weight")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BookDetail_Id");
+
+                    b.HasIndex("Book_Id")
+                        .IsUnique();
+
+                    b.ToTable("Fluent_BookDetails", (string)null);
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Publisher", b =>
+                {
+                    b.Property<int>("Publisher_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Publisher_Id"));
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Publisher_Id");
+
+                    b.ToTable("Fluent_Publishers");
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>
@@ -243,21 +348,6 @@ namespace CodingWikiDataAccess.Migrations
                     b.ToTable("SubCategories");
                 });
 
-            modelBuilder.Entity("AuthorBook", b =>
-                {
-                    b.HasOne("CodingWiki_Model.Models.Author", null)
-                        .WithMany()
-                        .HasForeignKey("AuthorsAuthor_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodingWiki_Model.Models.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksBookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
                     b.HasOne("CodingWiki_Model.Models.Publisher", "Publisher")
@@ -267,6 +357,25 @@ namespace CodingWikiDataAccess.Migrations
                         .IsRequired();
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.BookAuthorMap", b =>
+                {
+                    b.HasOne("CodingWiki_Model.Models.Author", "Author")
+                        .WithMany("BookAuthorMap")
+                        .HasForeignKey("Author_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodingWiki_Model.Models.Book", "Book")
+                        .WithMany("BookAuthorMap")
+                        .HasForeignKey("Book_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
@@ -280,9 +389,48 @@ namespace CodingWikiDataAccess.Migrations
                     b.Navigation("Book");
                 });
 
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Book", b =>
+                {
+                    b.HasOne("CodingWiki_Model.Models.Fluent_Publisher", "Publisher")
+                        .WithMany("Books")
+                        .HasForeignKey("Publisher_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_BookDetail", b =>
+                {
+                    b.HasOne("CodingWiki_Model.Models.Fluent_Book", "Book")
+                        .WithOne("BookDetail")
+                        .HasForeignKey("CodingWiki_Model.Models.Fluent_BookDetail", "Book_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Author", b =>
+                {
+                    b.Navigation("BookAuthorMap");
+                });
+
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
+                    b.Navigation("BookAuthorMap");
+
                     b.Navigation("BookDetail");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Book", b =>
+                {
+                    b.Navigation("BookDetail");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Publisher", b =>
+                {
+                    b.Navigation("Books");
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>

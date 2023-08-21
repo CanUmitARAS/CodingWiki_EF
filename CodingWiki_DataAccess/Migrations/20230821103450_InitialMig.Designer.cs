@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWikiDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230815215813_OneToRelationshipAddedSeedDataAdded")]
-    partial class OneToRelationshipAddedSeedDataAdded
+    [Migration("20230821103450_InitialMig")]
+    partial class InitialMig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,7 +88,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 1,
                             ISBN = "123812",
                             Price = 10.9m,
-                            PublisherId = 0,
+                            PublisherId = 1,
                             Title = "Spider without duty"
                         },
                         new
@@ -96,7 +96,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 2,
                             ISBN = "12123812",
                             Price = 11.99m,
-                            PublisherId = 0,
+                            PublisherId = 2,
                             Title = "Fortune Of Time"
                         },
                         new
@@ -104,7 +104,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 3,
                             ISBN = "77652",
                             Price = 20.99m,
-                            PublisherId = 0,
+                            PublisherId = 3,
                             Title = "Fake Sunday"
                         },
                         new
@@ -112,7 +112,7 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 4,
                             ISBN = "CC12812",
                             Price = 25.99m,
-                            PublisherId = 0,
+                            PublisherId = 1,
                             Title = "Cookie Jar"
                         },
                         new
@@ -120,9 +120,24 @@ namespace CodingWikiDataAccess.Migrations
                             BookId = 5,
                             ISBN = "P0392B33",
                             Price = 40.99m,
-                            PublisherId = 0,
+                            PublisherId = 2,
                             Title = "Cloudy Forest"
                         });
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.BookAuthorMap", b =>
+                {
+                    b.Property<int>("Author_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Book_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Author_Id", "Book_Id");
+
+                    b.HasIndex("Book_Id");
+
+                    b.ToTable("BookAuthorMap");
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
@@ -170,6 +185,100 @@ namespace CodingWikiDataAccess.Migrations
                     b.ToTable("category");
                 });
 
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Author", b =>
+                {
+                    b.Property<int>("Author_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Author_Id"));
+
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Author_Id");
+
+                    b.ToTable("Fluent_Authors");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Book", b =>
+                {
+                    b.Property<int>("BookId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+
+                    b.Property<string>("ISBN")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BookId");
+
+                    b.ToTable("Fluent_Books");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_BookDetail", b =>
+                {
+                    b.Property<int>("BookDetail_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookDetail_Id"));
+
+                    b.Property<int>("NumberOfChapters")
+                        .HasColumnType("int")
+                        .HasColumnName("NoOfChapters");
+
+                    b.Property<int>("NumberOfPages")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Weight")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("BookDetail_Id");
+
+                    b.ToTable("Fluent_BookDetails", (string)null);
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Publisher", b =>
+                {
+                    b.Property<int>("Publisher_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Publisher_Id"));
+
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Publisher_Id");
+
+                    b.ToTable("Fluent_Publishers");
+                });
+
             modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>
                 {
                     b.Property<int>("Publisher_Id")
@@ -194,19 +303,19 @@ namespace CodingWikiDataAccess.Migrations
                         {
                             PublisherId = 1,
                             Location = "Chigago",
-                            Name = "Pub 1 Jimmy"
+                            Name = "Pub1 Jimmy"
                         },
                         new
                         {
                             PublisherId = 2,
                             Location = "New York",
-                            Name = "Pub 1 John"
+                            Name = "Pub2 John"
                         },
                         new
                         {
                             PublisherId = 3,
                             Location = "Hawaii",
-                            Name = "Pub 1 Ben"
+                            Name = "Pub3 Ben"
                         });
                 });
 
@@ -231,12 +340,31 @@ namespace CodingWikiDataAccess.Migrations
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
                     b.HasOne("CodingWiki_Model.Models.Publisher", "Publisher")
-                        .WithMany()
+                        .WithMany("Books")
                         .HasForeignKey("Publisher_Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.BookAuthorMap", b =>
+                {
+                    b.HasOne("CodingWiki_Model.Models.Author", "Author")
+                        .WithMany("BookAuthorMap")
+                        .HasForeignKey("Author_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CodingWiki_Model.Models.Book", "Book")
+                        .WithMany("BookAuthorMap")
+                        .HasForeignKey("Book_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("CodingWiki_Model.Models.BookDetail", b =>
@@ -250,9 +378,21 @@ namespace CodingWikiDataAccess.Migrations
                     b.Navigation("Book");
                 });
 
+            modelBuilder.Entity("CodingWiki_Model.Models.Author", b =>
+                {
+                    b.Navigation("BookAuthorMap");
+                });
+
             modelBuilder.Entity("CodingWiki_Model.Models.Book", b =>
                 {
+                    b.Navigation("BookAuthorMap");
+
                     b.Navigation("BookDetail");
+                });
+
+            modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
