@@ -22,6 +22,7 @@ namespace CodingWiki_Model.Models
         public string PriceRange { get; set; }
 
 
+
         public Fluent_BookDetail BookDetail { get; set; }
 
         [ForeignKey("Publisher")]

@@ -47,6 +47,7 @@ namespace CodingWiki_DataAccess.Data
 
 
 
+
             modelBuilder.Entity<Fluent_Book>().Property(u => u.ISBN).HasMaxLength(50);
             modelBuilder.Entity<Fluent_Book>().Property(u => u.ISBN).IsRequired();
             modelBuilder.Entity<Fluent_Book>().HasKey(u => u.BookId);
@@ -56,11 +57,14 @@ namespace CodingWiki_DataAccess.Data
 
             modelBuilder.Entity<Fluent_Author>().Property(u => u.FirstName).HasMaxLength(50);
             modelBuilder.Entity<Fluent_Author>().Property(u => u.FirstName).IsRequired();
+            modelBuilder.Entity<Fluent_Author>().Property(u => u.LastName).IsRequired();
             modelBuilder.Entity<Fluent_Author>().HasKey(u => u.Author_Id);
             modelBuilder.Entity<Fluent_Author>().Ignore(u => u.FullName);
 
             modelBuilder.Entity<Fluent_Publisher>().Property(u => u.Name).IsRequired();
             modelBuilder.Entity<Fluent_Publisher>().HasKey(u => u.Publisher_Id);
+
+           
 
 
             modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(10, 5);
