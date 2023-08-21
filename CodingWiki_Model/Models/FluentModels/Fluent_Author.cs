@@ -31,6 +31,6 @@ namespace CodingWiki_Model.Models
             }
         }
 
-        //public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
+        public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
     }
 }

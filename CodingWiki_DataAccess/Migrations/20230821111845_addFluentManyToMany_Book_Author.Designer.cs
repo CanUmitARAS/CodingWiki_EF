@@ -4,6 +4,7 @@ using CodingWiki_DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodingWikiDataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230821111845_addFluentManyToMany_Book_Author")]
+    partial class addFluentManyToManyBookAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +202,6 @@ namespace CodingWikiDataAccess.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
@@ -402,7 +404,6 @@ namespace CodingWikiDataAccess.Migrations
                     b.Navigation("Book");
                 });
 
-
             modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Book", b =>
                 {
                     b.HasOne("CodingWiki_Model.Models.Fluent_Publisher", "Publisher")
@@ -413,7 +414,6 @@ namespace CodingWikiDataAccess.Migrations
 
                     b.Navigation("Publisher");
                 });
-
 
             modelBuilder.Entity("CodingWiki_Model.Models.Fluent_BookAuthorMap", b =>
                 {
@@ -433,7 +433,6 @@ namespace CodingWikiDataAccess.Migrations
 
                     b.Navigation("Book");
                 });
-
 
             modelBuilder.Entity("CodingWiki_Model.Models.Fluent_BookDetail", b =>
                 {
@@ -470,12 +469,10 @@ namespace CodingWikiDataAccess.Migrations
                     b.Navigation("BookDetail");
                 });
 
-
             modelBuilder.Entity("CodingWiki_Model.Models.Fluent_Publisher", b =>
                 {
                     b.Navigation("Books");
                 });
-
 
             modelBuilder.Entity("CodingWiki_Model.Models.Publisher", b =>
                 {

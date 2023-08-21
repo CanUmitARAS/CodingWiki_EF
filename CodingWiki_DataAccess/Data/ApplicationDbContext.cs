@@ -70,6 +70,11 @@ namespace CodingWiki_DataAccess.Data
             modelBuilder.Entity<Book>().Property(u => u.Price).HasPrecision(10, 5);
             modelBuilder.Entity<BookAuthorMap>().HasKey(u => new { u.Author_Id, u.Book_Id });
 
+
+            modelBuilder.Entity<Fluent_BookAuthorMap>().HasKey(u => new { u.Author_Id, u.Book_Id });
+            modelBuilder.Entity<Fluent_BookAuthorMap>().HasOne(u => u.Book).WithMany(u => u.BookAuthorMap).HasForeignKey(u => u.Book_Id);
+            modelBuilder.Entity<Fluent_BookAuthorMap>().HasOne(u => u.Author).WithMany(u => u.BookAuthorMap).HasForeignKey(u => u.Author_Id);
+
             modelBuilder.Entity<Book>().HasData(
 
 
