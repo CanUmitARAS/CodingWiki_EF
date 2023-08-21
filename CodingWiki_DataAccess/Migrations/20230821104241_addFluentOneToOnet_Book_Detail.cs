@@ -2,32 +2,36 @@
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace CodingWikiDataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class addOneToOneRelationBookBookDetail : Migration
+    public partial class addFluentOneToOnetBookDetail : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
                 name: "Book_Id",
-                table: "BookDetails",
+                table: "Fluent_BookDetails",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
 
+            
+
             migrationBuilder.CreateIndex(
-                name: "IX_BookDetails_Book_Id",
-                table: "BookDetails",
+                name: "IX_Fluent_BookDetails_Book_Id",
+                table: "Fluent_BookDetails",
                 column: "Book_Id",
                 unique: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_BookDetails_books_Book_Id",
-                table: "BookDetails",
+                name: "FK_Fluent_BookDetails_Fluent_Books_Book_Id",
+                table: "Fluent_BookDetails",
                 column: "Book_Id",
-                principalTable: "books",
+                principalTable: "Fluent_Books",
                 principalColumn: "BookId",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -36,16 +40,20 @@ namespace CodingWikiDataAccess.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_BookDetails_books_Book_Id",
-                table: "BookDetails");
+                name: "FK_Fluent_BookDetails_Fluent_Books_Book_Id",
+                table: "Fluent_BookDetails");
 
             migrationBuilder.DropIndex(
-                name: "IX_BookDetails_Book_Id",
-                table: "BookDetails");
+                name: "IX_Fluent_BookDetails_Book_Id",
+                table: "Fluent_BookDetails");
+
+           
 
             migrationBuilder.DropColumn(
                 name: "Book_Id",
-                table: "BookDetails");
+                table: "Fluent_BookDetails");
+
+           
         }
     }
 }
