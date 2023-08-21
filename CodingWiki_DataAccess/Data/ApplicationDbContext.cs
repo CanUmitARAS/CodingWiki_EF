@@ -16,8 +16,9 @@ namespace CodingWiki_DataAccess.Data
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<Author> Authors { get; set; }
-        public DbSet<SubCategory> SubCategories{ get; set; }
+        public DbSet<SubCategory> SubCategories { get; set; }
         public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<BookDetail> BookDetails { get; set; }
 
         public DbSet<BookDetail> BookDetails { get; set; }
 
@@ -35,7 +36,7 @@ namespace CodingWiki_DataAccess.Data
         {
             options.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=CodingWiki;TrustServerCertificate=True;Trusted_Connection=True;");
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Fluent_BookDetail>().ToTable("Fluent_BookDetails");
@@ -65,10 +66,14 @@ namespace CodingWiki_DataAccess.Data
 
             modelBuilder.Entity<Book>().HasData(
 
+
                  new Book { BookId = 1, Title = "Spider without duty", ISBN = "123812", Price = 10.9m, Publisher_Id = 1 },
                  new Book { BookId = 2, Title = "Fortune Of Time", ISBN = "12123812", Price = 11.99m, Publisher_Id = 2 }
 
+
                 );
+
+
 
             var bookList = new Book[]
             {
@@ -79,12 +84,15 @@ namespace CodingWiki_DataAccess.Data
 
             modelBuilder.Entity<Book>().HasData(bookList);
 
+
             modelBuilder.Entity<Publisher>().HasData
               (
                  new Publisher { Publisher_Id = 1, Name = "Pub1 Jimmy", Location = "Chigago" },
                  new Publisher { Publisher_Id = 2, Name = "Pub2 John", Location = "New York" },
                  new Publisher { Publisher_Id = 3, Name = "Pub3 Ben", Location = "Hawaii" }
               );
+
+
 
 
         }
