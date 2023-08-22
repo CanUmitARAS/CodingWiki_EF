@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace CodingWiki_DataAccess.FluentConfig
 {
-    public class FluentBookConfig : IEntityTypeConfiguration<Fluent_BookDetail>
+    public class FluentBookConfig : IEntityTypeConfiguration<Fluent_Book>
     {
-        public void Configure(EntityTypeBuilder<Fluent_BookDetail> modelBuilder)
+        public void Configure(EntityTypeBuilder<Fluent_Book> modelBuilder)
         {
-            modelBuilder.ToTable("Fluent_BookDetails");
-            modelBuilder.Property(u => u.NumberOfChapters).HasColumnName("NoOfChapters");
-            modelBuilder.Property(u => u.NumberOfChapters).IsRequired();
-            modelBuilder.HasKey(u => u.BookDetail_Id);
-            modelBuilder.HasOne(b => b.Book).WithOne(b => b.BookDetail).HasForeignKey<Fluent_BookDetail>(u => u.Book_Id);
+            modelBuilder.Property(u => u.ISBN).HasMaxLength(50);
+            modelBuilder.Property(u => u.ISBN).IsRequired();
+            modelBuilder.HasKey(u => u.BookId);
+            modelBuilder.Ignore(u => u.PriceRange);
+            modelBuilder.HasOne(u => u.Publisher).WithMany(u => u.Books).HasForeignKey(u => u.Publisher_Id);
         }
     }
 }
