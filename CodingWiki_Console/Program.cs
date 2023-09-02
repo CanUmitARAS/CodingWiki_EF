@@ -15,56 +15,41 @@ Console.WriteLine("Hello, World!");
 //    }
 //}
 //AddBook();
-//GetAllBooks();
+GetAllBooks();
 GetBook();
 
 void GetBook()
 {
-    
     try
     {
         using var context = new ApplicationDbContext();
-        var selectedBooks = context.Books.Where(u => u.ISBN.Contains("12"));
-        //Console.WriteLine(selectedBooks.Title + " - " + selectedBooks.ISBN);
-        foreach (var book in selectedBooks)
+        var books = context.Books;
+        //Console.WriteLine(book.Title + " - " + book.ISBN);
+        foreach (var book in books)
         {
             Console.WriteLine(book.Title + " - " + book.ISBN);
         }
     }
     catch (Exception e)
     {
-        throw;
+
     }
-
-
-
-    //try
-    //{
-    //    using var context = new ApplicationDbContext();
-    //    var book = context.Books.Where(u => u.Publisher_Id == 3);
-    //    Console.WriteLine(book.Title + " - " + book.ISBN);
-    //    foreach (var book in books)
-    //    {
-    //        Console.WriteLine(book.Title + " - " + book.ISBN);
-    //    }
-    //}
-    //catch (Exception e)
-    //{
-
-    //}
 }
 
 void GetAllBooks()
 {
     using var context = new ApplicationDbContext();
     var books = context.Books.ToList();
-
+    foreach (var book in books)
+    {
+        Console.WriteLine(book.Title + " - " + book.ISBN);
+    }
 }
 
 
 void AddBook()
 {
-    Book book = new() { Title = "New EF Core Book", ISBN = "1231231212", Price = 10.93m, Publisher_Id = 1 };
+    Book book = new() { Title = "New EF Core Book", ISBN = "1231231212", Price = 10.93m, Publisher_Id=1 };
     using var context = new ApplicationDbContext();
     var books = context.Books.Add(book);
     context.SaveChanges();

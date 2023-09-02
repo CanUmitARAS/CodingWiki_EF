@@ -10,27 +10,24 @@ namespace CodingWiki_Model.Models
 {
     public class Fluent_Author
     {
-        //[Key]
+        [Key]
         public int Author_Id { get; set; }
-        //[Required]
-        //[MaxLength(100)]
+        [Required]
+        [MaxLength(50)]
         public string FirstName { get; set; }
-
-        //[Required]
+        [Required]
         public string LastName { get; set; }
-
         public DateTime BirthDate { get; set; }
-
         public string Location { get; set; }
-
-        //[NotMapped]
-        public string FullName {
+        [NotMapped]
+        public string FullName
+        {
             get
             {
                 return $"{FirstName} {LastName}";
             }
         }
-
-        public List<Fluent_BookAuthorMap> BookAuthorMap { get; set; }
+        //public List<Fluent_Book> Books { get; set; }
+        public List<Fluent_BookAuthorMap> BookAuthorMap{ get; set; }
     }
 }

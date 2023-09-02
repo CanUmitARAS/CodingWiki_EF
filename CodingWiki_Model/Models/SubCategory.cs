@@ -11,10 +11,8 @@ namespace CodingWiki_Model.Models
     {
         [Key]
         public int SubCategory_Id { get; set; }
-
-        [Required, MaxLength(50)]
-
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
-        
     }
 }

@@ -13,24 +13,21 @@ namespace CodingWiki_Model.Models
         [Key]
         public int Author_Id { get; set; }
         [Required]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string FirstName { get; set; }
-
         [Required]
         public string LastName { get; set; }
-
         public DateTime BirthDate { get; set; }
-
         public string Location { get; set; }
-
         [NotMapped]
-        public string FullName {
+        public string FullName
+        {
             get
             {
                 return $"{FirstName} {LastName}";
             }
         }
 
-        public List<BookAuthorMap> BookAuthorMap { get; set; }
+        public List<BookAuthorMap> BookAuthorMap{ get; set; }
     }
 }

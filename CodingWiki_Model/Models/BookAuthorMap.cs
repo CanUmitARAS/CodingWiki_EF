@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,6 @@ namespace CodingWiki_Model.Models
     {
         [ForeignKey("Book")]
         public int Book_Id { get; set; }
-
         [ForeignKey("Author")]
         public int Author_Id { get; set; }
 
