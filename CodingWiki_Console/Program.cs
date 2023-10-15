@@ -17,13 +17,14 @@ Console.WriteLine("Hello, World!");
 //AddBook();
 GetAllBooks();
 GetBook();
+AddBook();
 
 void GetBook()
 {
     try
     {
         using var context = new ApplicationDbContext();
-        var books = context.Books;
+        var books = context.Books.Where(u=>u.Publisher_Id==3).FirstOrDefault();
         //Console.WriteLine(book.Title + " - " + book.ISBN);
         foreach (var book in books)
         {
